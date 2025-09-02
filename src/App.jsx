@@ -1,8 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Products from "./pages/Products";
+import ShowProduct from "./pages/ShowProduct";
+import Footer from "./components/Footer";
+
 function App() {
   return (
-    <>
-      <h1 className="th-screen flex items-center justify-center bg-brand text-black text-2xl">hello vite</h1>
-    </>
+    <Router>
+      <div className="grid items-center">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Products />} />
+          <Route path="/product/show" element={<ShowProduct />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
