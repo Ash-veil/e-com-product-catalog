@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
-      <div className="grid items-center">
+      <div className="grid min-h-screen">
         <Navbar />
         <Routes>
           <Route path="/" element={<Products />} />
