@@ -4,7 +4,7 @@ const ProductCard = ({ p }) => {
         <a href="#">
           <img
             className="p-2 rounded-t-lg"
-            src={p.imageSrc}
+            src={p.image}
             alt="product image"
           />
         </a>

@@ -1,142 +1,68 @@
+import { useEffect, useState } from "react";
 import MiniHero from "../components/partials/MiniHero";
 import ProductCard from "../components/partials/ProductCard";
-
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-02.jpg",
-    imageAlt: "Front of men's Basic Tee in white.",
-    price: "$35",
-    color: "Aspen White",
-  },
-  {
-    id: 3,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
-    imageAlt: "Front of men's Basic Tee in dark gray.",
-    price: "$35",
-    color: "Charcoal",
-  },
-  {
-    id: 4,
-    name: "Artwork Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-04.jpg",
-    imageAlt:
-      "Front of men's Artwork Tee in peach with white and brown dots forming an isometric cube.",
-    price: "$35",
-    color: "Iso Dots",
-  },
-  {
-    id: 5,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 6,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-02.jpg",
-    imageAlt: "Front of men's Basic Tee in white.",
-    price: "$35",
-    color: "Aspen White",
-  },
-  {
-    id: 7,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
-    imageAlt: "Front of men's Basic Tee in dark gray.",
-    price: "$35",
-    color: "Charcoal",
-  },
-  {
-    id: 8,
-    name: "Artwork Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-04.jpg",
-    imageAlt:
-      "Front of men's Artwork Tee in peach with white and brown dots forming an isometric cube.",
-    price: "$35",
-    color: "Iso Dots",
-  },
-  {
-    id: 9,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 10,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-02.jpg",
-    imageAlt: "Front of men's Basic Tee in white.",
-    price: "$35",
-    color: "Aspen White",
-  },
-  {
-    id: 11,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
-    imageAlt: "Front of men's Basic Tee in dark gray.",
-    price: "$35",
-    color: "Charcoal",
-  },
-  {
-    id: 12,
-    name: "Artwork Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-04.jpg",
-    imageAlt:
-      "Front of men's Artwork Tee in peach with white and brown dots forming an isometric cube.",
-    price: "$35",
-    color: "Iso Dots",
-  },
-];
-
+import getProducts from "../api/products";
+import ReactPaginate from "react-paginate";
 const Products = () => {
+  const [products, setProducts] = useState([]);
+  const list = async () => {
+    const data = await getProducts();
+    setProducts(data);
+  };
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 8;
+  const start = currentPage * itemsPerPage;
+  const currentProducts = products.slice(start, start + itemsPerPage);
+  const pageCount = Math.ceil(products.length / itemsPerPage);
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
+  useEffect(() => {
+    list();
+  }, []);
   return (
     <div className="bg-slate-900">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <MiniHero />
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
+          {currentProducts.map((product) => (
             <ProductCard key={product.id} p={product} />
           ))}
         </div>
+      </div>
+      <div className="flex justify-center mt-6">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName="inline-flex -space-x-px text-base h-10"
+          pageClassName=""
+          pageLinkClassName="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 
+    hover:bg-gray-100 hover:text-gray-700 
+    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 
+    dark:hover:bg-gray-700 dark:hover:text-white"
+          activeClassName=""
+          activeLinkClassName="flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 
+    hover:bg-blue-100 hover:text-blue-700 
+    dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+          previousClassName=""
+          previousLinkClassName="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg 
+    hover:bg-gray-100 hover:text-gray-700 
+    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 
+    dark:hover:bg-gray-700 dark:hover:text-white"
+          nextClassName=""
+          nextLinkClassName="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg 
+    hover:bg-gray-100 hover:text-gray-700 
+    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 
+    dark:hover:bg-gray-700 dark:hover:text-white"
+          breakClassName=""
+          breakLinkClassName="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 
+    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+          disabledClassName="opacity-50 cursor-not-allowed"
+        />
       </div>
     </div>
   );
