@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MiniHero from "../components/partials/MiniHero";
 import ProductCard from "../components/partials/ProductCard";
-import getProducts from "../api/products";
+import {getProducts} from "../api/products";
 import ReactPaginate from "react-paginate";
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +11,7 @@ const Products = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 8;
+  const itemsPerPage = 12;
   const start = currentPage * itemsPerPage;
   const currentProducts = products.slice(start, start + itemsPerPage);
   const pageCount = Math.ceil(products.length / itemsPerPage);
