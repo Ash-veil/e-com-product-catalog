@@ -1,15 +1,19 @@
+import { Link } from "react-router-dom";
+import slugify from "slugify";
+
 const ProductCard = ({ p }) => {
+ const urlName = slugify(p.name, {lower:true})
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
+      <Link to={`/products/${p.ref}/${urlName}`}>
         <img className="p-2 rounded-t-lg" src={p.image} alt="product image" />
-      </a>
+      </Link>
       <div className="px-5 pb-5">
-        <a href="#">
+        <Link to={`/products/${p.ref}/${urlName}`} >
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
             {p.name}
           </h5>
-        </a>
+        </Link>
         <div className="flex items-center mt-2.5 mb-5">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             {Array.from({ length: 5 }, (_, i) => (
@@ -29,12 +33,12 @@ const ProductCard = ({ p }) => {
             ))}
           </div>
           <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">
-            5.0
+            {p.rating}
           </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            {p.price}
+            {"€"+ p.price}
           </span>
           <a
             href="#"
