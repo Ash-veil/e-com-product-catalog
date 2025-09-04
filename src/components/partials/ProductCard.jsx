@@ -6,7 +6,7 @@ const ProductCard = ({ p }) => {
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       <Link to={`/products/${p.ref}/${urlName}`}>
-        <img className="p-2 rounded-t-lg" src={p.image} alt="product image" />
+        <img className="p-2 rounded-t-lg" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="product image" />
       </Link>
       <div className="px-5 pb-5">
         <Link to={`/products/${p.ref}/${urlName}`} >

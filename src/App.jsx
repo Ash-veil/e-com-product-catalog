@@ -4,6 +4,7 @@ import Products from "./pages/Products";
 import ShowProduct from "./pages/ShowProduct";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
           <Route path="/" element={<Products />} />
           <Route path="/products/:ref/:productName" element={<ShowProduct />} />
           <Route path="/cart" element={<Cart />} />
+
+          <Route path="/*" element={<NotFound />} />
         </Routes>
         <Footer />
       </div>
