@@ -5,7 +5,7 @@ const ShowProduct = () => {
   const { ref } = useParams();
   const { productName } = useParams();
   const item = getProductByRef(ref);
-  console.log(item);
+
   return (
     <div className="pt-6 bg-slate-900">
       <nav aria-label="Breadcrumb">
@@ -63,14 +63,8 @@ const ShowProduct = () => {
         <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
             <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
-              <img
-                className="w-full dark:hidden"
-                src={item.image}
-              />
-              <img
-                className="w-full hidden dark:block"
-                src={item.image}
-              />
+              <img className="w-full dark:hidden" src={item.image} />
+              <img className="w-full hidden dark:block" src={item.image} />
             </div>
             <div className="mt-6 sm:mt-8 lg:mt-0">
               <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
@@ -137,7 +131,7 @@ const ShowProduct = () => {
               </div>
               <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
               <p className="mb-6 text-gray-500 dark:text-gray-400">
-                    {item.desc}
+                {item.desc}
               </p>
             </div>
           </div>
