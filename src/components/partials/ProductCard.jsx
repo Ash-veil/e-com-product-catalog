@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import slugify from "slugify";
+import { useCart } from "../../context/CartContext";
 
 const ProductCard = ({ p }) => {
  const urlName = slugify(p.name, {lower:true})
+  const { addToCart } = useCart();
+
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       <Link to={`/products/${p.ref}/${urlName}`}>
@@ -42,6 +45,7 @@ const ProductCard = ({ p }) => {
           </span>
           <a
             href="#"
+            onClick={()=> addToCart(p)}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Add to cart
