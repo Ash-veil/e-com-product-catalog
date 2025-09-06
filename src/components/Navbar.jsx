@@ -1,13 +1,14 @@
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import slugify from "slugify";
 import { getProducts } from "../api/products";
 import { Link } from "react-router-dom";
-
-
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+
+  const { cart } = useCart();
 
   const [products, setProducts] = useState([]);
   const list = async () => {
@@ -28,7 +29,10 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link
+          to="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -93,7 +97,6 @@ const Navbar = () => {
               <span className="sr-only">Search icon</span>
             </div>
             <input
-
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               type="text"
@@ -101,12 +104,14 @@ const Navbar = () => {
               className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search..."
             />
-             {filtered.length > 0 && (
+            {filtered.length > 0 && (
               <ul className="absolute z-10 w-full bg-white border border-gray-200 mt-1 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-600">
                 {filtered.map((item) => (
                   <li key={item.id}>
                     <Link
-                      to={`/products/${item.ref}/${slugify( item.name, {lower:true})}`}
+                      to={`/products/${item.ref}/${slugify(item.name, {
+                        lower: true,
+                      })}`}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
                       dark:text-gray-200 dark:hover:bg-gray-700"
                       onClick={() => setQuery("")}
@@ -177,7 +182,8 @@ const Navbar = () => {
           </div>
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <Link to="/"
+              <Link
+                to="/"
                 className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                 aria-current="page"
               >
@@ -192,10 +198,16 @@ const Navbar = () => {
                 Contact
               </a>
             </li>
-            <li>
-              <Link to={"/cart"}
+            <li className="relative inline-block">
+              <Link
+                to={"/cart"}
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
+                 {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                    {cart.length}
+                  </span>
+                )}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -209,8 +221,16 @@ const Navbar = () => {
                     strokeLinejoin="round"
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
                   />
+                 
                 </svg>
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                    {cart.length}
+                  </span>
+                )}
+                
               </Link>
+               
             </li>
           </ul>
         </div>
