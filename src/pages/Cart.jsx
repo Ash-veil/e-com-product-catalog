@@ -3,10 +3,33 @@ import { useCart } from "../context/CartContext";
 import slugify from "slugify";
 import RecommendationCard from "../components/RecommendationCard";
 import Checkout from "../components/Checkout";
+import { FadeLoader } from "react-spinners";
+import { useState } from "react";
+
 
 const Cart = () => {
-  const { cart, clearCart, removeFromCart, addToCart, decreaseQty } = useCart();
+  const { cart, removeFromCart, addToCart, decreaseQty } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [loading, setLoading] = useState(true);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, "1000");
+
+  if (loading) {
+    return (
+      <div className="mx-auto w-full bg-slate-900">
+        <div className="flex w-full justify-center">
+          <FadeLoader
+            color="white"
+            size={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
@@ -19,10 +42,13 @@ const Cart = () => {
             <div className="space-y-6">
               {cart.length === 0 ? (
                 <div className="rounded-lg border border-red-600 bg-white p-4 shadow-sm dark:border-red-600 dark:bg-gray-800 md:p-6">
-                      <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                        <p className="text-base text-center text-gray-900 dark:text-white"> There is no items in the cart..</p>
-                      </div>
-                    </div>
+                  <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                    <p className="text-base text-center text-gray-900 dark:text-white">
+                      {" "}
+                      There is no items in the cart..
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <>
                   {cart.map((item) => (
